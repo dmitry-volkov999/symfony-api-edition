@@ -141,7 +141,7 @@ services:
  | access_attribute      | string    |Access Attribute                                          | update            |
 
 
-Update action has the same available features and options as a create action. (see "Create Action")
+Update action has the same available features and options as a create action. (see "[Create Action](#create-action)")
 
 
 Delete Action
