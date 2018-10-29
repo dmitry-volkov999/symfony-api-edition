@@ -21,12 +21,15 @@ Fixtures
 Create Action
 -------------
 
-To enable Create Action, you need to configure it in `services.yml` file.
-
 There are two required parameters: Entity class and FormType Class.
 Example:
 
 ```
+# src/AppBundle/Resources/config/services.yml
+
+services:
+    #...
+
     action.user.create:
         parent: core.action.abstract
         class: Requestum\ApiBundle\Action\CreateAction
@@ -36,23 +39,31 @@ Example:
 ```
 
 
-## Options
+## Available Options
 
- | Option                | Type      | Example                                           | Description                                           |
- | ----------------------| --------  |---------------------------------------------------|-------------------------------------------------------|
- | use_lock              | boolean   |`'use_lock': true`                                 |option which gives the opportunity to use transactions |
- | http_method           | string    |`'http_method': PUT`                               |HTTP method                                            |
- | success_status_code   | string    |`'success_status_code' : Response::HTTP_CREATED`   |Status that is returned after execution                |
- | return_entity         | boolean   |`'return_entity' : true`                           |Result entity in response                              |
- | form_options          | array     |                                                   |options that will be used in building form             |
- | before_save_events    | array     |`'before_save_events': ['action.before_save_item']`|Before submit events                                   |
- | after_save_events     | array     |`'after_save_events': ['action.after_save_item']`  |After submit events                                    |
- | access_attribute      | string    |`'access_attribute': 'create'`                     |Access Attribute                                       |
+ | Option                | Type      | Description                                              |
+ | ----------------------| --------  |----------------------------------------------------------|
+ | http_method           | string    |HTTP method                                               |
+ | success_status_code   | integer   |Status that is returned after execution                   |
+ | return_entity         | boolean   |Result entity in response                                 |
+ | form_options          | array     |options that will be used in building form                |
+ | before_save_events    | array     |Before submit events (events that throws before the flush)|
+ | after_save_events     | array     |After submit events (events that throws after the flush)  |
+ | access_attribute      | string    |Access Attribute                                          |
+
+## Default Options
+
+ | Option                | Value     |
+ | ----------------------| --------  |
+ | success_status_code   | 201       |
+ | access_attribute      | create    |
+ | http_method           | POST      |
+ | return_entity         | true      |
 
 
 ## Event listeners
 
-You can create listeners that will be work before and after save entity.
+You can create listeners that will respond to event occuring before and after submit the request.
 You need to configure it in `services.yml` file:
 ```
     before_save.user.event:
@@ -80,30 +91,19 @@ Then you need to specify this listeners in create action configuration:
             - ['setOptions', [{'before_save_events': ['action.before_save_user'], 'after_save_events': ['action.after_save_user']}]]
 ```
 
-## Transactions
-
-If you need to enable transactions you can do it by configuring create action.
-You need to set `true` for option `use_lock`:
-```
-    action.user.create:
-        parent: core.action.abstract
-        class: Requestum\ApiBundle\Action\CreateAction
-        arguments:
-            - AppBundle\Entity\User
-            - AppBundle\Form\User\UserType
-        calls:
-            - ['setOptions', [{'use_lock': true}]]
-```
 
 Update Action
 -------------
-
-To enable Update Action, you need to configure it in `services.yml` file.
 
 There are two required parameters: Entity class and FormType Class.
 Example:
 
 ```
+# src/AppBundle/Resources/config/services.yml
+
+services:
+    #...
+
     action.user.update:
         parent: core.action.abstract
         class: Requestum\ApiBundle\Action\UpdateAction
@@ -115,19 +115,31 @@ Example:
 
 ## Features and Options
 
-Update action has the same features and options as a create action. (see "Create Action")
+## Default Options
+
+  | Option                | Value     |
+  | ----------------------| --------  |
+  | success_status_code   | 200       |
+  | access_attribute      | update    |
+  | http_method           | PATCH     |
+  | return_entity         | true      |
+
+Update action has the same available features and options as a create action. (see "Create Action")
 
 
 
 Delete Action
 -------------
 
-To enable Delete Action, you need to configure it in `services.yml` file.
-
 There is one required parameter: Entity class.
 Example:
 
 ```
+# src/AppBundle/Resources/config/services.yml
+
+services:
+    #...
+
     action.user.delete:
         parent: core.action.abstract
         class: Requestum\ApiBundle\Action\DeleteAction
@@ -138,16 +150,24 @@ Example:
 
 ## Options
 
- | Option                | Type         | Example                                               | Description                                            |
- | ----------------------| -------------|-------------------------------------------------------|--------------------------------------------------------|
- | fetch_field           | string       |`'fetch_field': 'customIdentifierField'`               |The field that is the entity identifier (id by default) |
- | before_delete_events  | array        |`'before_delete_events': ['action.before_delete_item']`|Before delete events                                    |
- | access_attribute      | string       |`'access_attribute': 'delete'`                         |Access Attribute                                        |
+ | Option                | Type         | Description                                            |
+ | ----------------------| -------------|--------------------------------------------------------|
+ | fetch_field           | string       |The field that is the entity identifier (id by default) |
+ | before_delete_events  | array        |Before delete events                                    |
+ | access_attribute      | string       |Access Attribute                                        |
 
+## Default Options
+
+  | Option                | Value     |
+  | ----------------------| --------  |
+  | fetch_field           | id        |
+  | access_attribute      | delete    |
+  | http_method           | PATCH     |
+  | return_entity         | true      |
 
 ## Event listeners
 
-You can create listeners that will be work before delete entity.
+You can create listeners that will respond to event occuring before delete the entity.
 You need to configure it in `services.yml` file:
 ```
     before_delete.user.event:
