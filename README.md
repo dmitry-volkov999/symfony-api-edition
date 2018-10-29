@@ -104,7 +104,7 @@ There are two required parameters: Entity class and FormType Class.
 Example:
 
 ```
-    action.user.create:
+    action.user.update:
         parent: core.action.abstract
         class: Requestum\ApiBundle\Action\UpdateAction
         arguments:
@@ -128,7 +128,7 @@ There is one required parameter: Entity class.
 Example:
 
 ```
-    action.user.create:
+    action.user.delete:
         parent: core.action.abstract
         class: Requestum\ApiBundle\Action\DeleteAction
         arguments:
