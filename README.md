@@ -130,7 +130,7 @@ Example:
 ```
     action.user.create:
         parent: core.action.abstract
-        class: Requestum\ApiBundle\Action\CreateAction
+        class: Requestum\ApiBundle\Action\DeleteAction
         arguments:
             - AppBundle\Entity\User
 ```
