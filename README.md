@@ -51,6 +51,7 @@ Example:
 
 
 ##Event listeners
+
 You can create listeners that will be work before and after save entity.
 You need to configure it in `services.yml` file:
 ```
@@ -80,6 +81,7 @@ Then you need to specify this listeners in create action configuration:
 ```
 
 ##Transactions
+
 If you need to enable transactions you can do it by configuring create action.
 You need to set `true` for option `use_lock`:
 ```
