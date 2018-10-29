@@ -49,8 +49,7 @@ Example:
  | after_save_events     | array     |`'after_save_events': ['action.after_save_item']`  |After submit events                                    |
 
 
-
-##Event listeners
+## Event listeners
 
 You can create listeners that will be work before and after save entity.
 You need to configure it in `services.yml` file:
@@ -80,7 +79,7 @@ Then you need to specify this listeners in create action configuration:
             - ['setOptions', [{'before_save_events': ['action.before_save_user'], 'after_save_events': ['action.after_save_user']}]]
 ```
 
-##Transactions
+## Transactions
 
 If you need to enable transactions you can do it by configuring create action.
 You need to set `true` for option `use_lock`:
