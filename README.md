@@ -47,6 +47,7 @@ Example:
  | form_options          | array     |                                                   |options that will be used in building form             |
  | before_save_events    | array     |`'before_save_events': ['action.before_save_item']`|Before submit events                                   |
  | after_save_events     | array     |`'after_save_events': ['action.after_save_item']`  |After submit events                                    |
+ | access_attribute      | string    |`'access_attribute': 'create'`                     |Access Attribute                                       |
 
 
 ## Event listeners
@@ -115,3 +116,54 @@ Example:
 ## Features and Options
 
 Update action has the same features and options as a create action. (see "Create Action")
+
+
+
+Delete Action
+-------------
+
+To enable Delete Action, you need to configure it in `services.yml` file.
+
+There is one required parameter: Entity class.
+Example:
+
+```
+    action.user.create:
+        parent: core.action.abstract
+        class: Requestum\ApiBundle\Action\CreateAction
+        arguments:
+            - AppBundle\Entity\User
+```
+
+
+## Options
+
+ | Option                | Type         | Example                                               | Description                                            |
+ | ----------------------| -------------|-------------------------------------------------------|--------------------------------------------------------|
+ | fetch_field           | string       |`'fetch_field': 'customIdentifierField'`               |The field that is the entity identifier (id by default) |
+ | before_delete_events  | array        |`'before_delete_events': ['action.before_delete_item']`|Before delete events                                    |
+ | access_attribute      | string       |`'access_attribute': 'delete'`                         |Access Attribute                                        |
+
+
+## Event listeners
+
+You can create listeners that will be work before delete entity.
+You need to configure it in `services.yml` file:
+```
+    before_delete.user.event:
+        class: Requestum\ApiBundle\EventListener\UserBeforeDeleteListener
+        tags:
+            - { name: kernel.event_listener, event: action.before_delete_user, method: onBeforeDeleteUser }
+
+```
+Then you need to specify this listeners in delete action configuration:
+```
+    action.user.create:
+        parent: core.action.abstract
+        class: Requestum\ApiBundle\Action\CreateAction
+        arguments:
+            - AppBundle\Entity\User
+            - AppBundle\Form\User\UserType
+        calls:
+            - ['setOptions', [{'before_delete_events': ['action.before_delete_user'] }]]
+```
