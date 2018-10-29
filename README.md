@@ -21,7 +21,7 @@ Fixtures
 Abstract Form Action Class
 -------------
 
-This is an abstract class that is the parent for the Create and Update Actions.
+This is an abstract class that is the parent for the [Create](#create-action) and [Update](#update-action) Actions.
 Can be used to inherit and to create another custom actions.
 
 #### Available Options
@@ -40,7 +40,7 @@ Create Action
 -------------
 
 Action to create a new object.
-This is a subclass that inherits from AbstractFormAction class.
+This is a subclass that inherits from [AbstractFormAction](#abstract-form-action-class) class.
 
 There are two required parameters: Entity class and FormType Class.
 Example:
