@@ -18,8 +18,29 @@ Fixtures
    
 **Access Tokens:** Access_Token_For_Artur, Access_Token_For_Kirill
 
+Abstract Form Action Class
+-------------
+
+This is an abstract class that is the parent for the Create and Update Actions.
+Can be used to inherit and to create another custom actions.
+
+#### Available Options
+
+ | Option                | Type      | Description                                              | Default Values    |
+ | ----------------------| --------  |----------------------------------------------------------|-------------------|
+ | http_method           | string    |HTTP method                                               | POST              |
+ | success_status_code   | integer   |Status that is returned after execution                   | 200               |
+ | return_entity         | boolean   |Result entity in response                                 | true              |
+ | form_options          | array     |options that will be used in building form                | []                |
+ | before_save_events    | array     |Before submit events (events that throws before the flush)| []                |
+ | after_save_events     | array     |After submit events (events that throws after the flush)  | []                |
+
+
 Create Action
 -------------
+
+Action to create a new object.
+This is a subclass that inherits from AbstractFormAction class.
 
 There are two required parameters: Entity class and FormType Class.
 Example:
@@ -39,29 +60,21 @@ services:
 ```
 
 
-## Available Options
+#### Available Options
 
- | Option                | Type      | Description                                              |
- | ----------------------| --------  |----------------------------------------------------------|
- | http_method           | string    |HTTP method                                               |
- | success_status_code   | integer   |Status that is returned after execution                   |
- | return_entity         | boolean   |Result entity in response                                 |
- | form_options          | array     |options that will be used in building form                |
- | before_save_events    | array     |Before submit events (events that throws before the flush)|
- | after_save_events     | array     |After submit events (events that throws after the flush)  |
- | access_attribute      | string    |Access Attribute                                          |
+ | Option                | Type      | Description                                              | Default Values    |
+ | ----------------------| --------  |----------------------------------------------------------|-------------------|
+ | http_method           | string    |HTTP method                                               | POST              |
+ | success_status_code   | integer   |Status that is returned after execution                   | 201               |
+ | return_entity         | boolean   |Result entity in response                                 | true              |
+ | form_options          | array     |options that will be used in building form                | []                |
+ | before_save_events    | array     |Before submit events (events that throws before the flush)| []                |
+ | after_save_events     | array     |After submit events (events that throws after the flush)  | []                |
+ | access_attribute      | string    |Access Attribute                                          | create            |
 
-## Default Options
+#### Event listeners
 
- | Option                | Value     |
- | ----------------------| --------  |
- | success_status_code   | 201       |
- | access_attribute      | create    |
- | http_method           | POST      |
- | return_entity         | true      |
-
-
-## Event listeners
+By default Create and Update actions throws such events: `'action.before_save'`, `'action.after_save'`. You can dispatch this events, or throw another events using such options as: `before_save_events` and `after_save_events`.
 
 You can create listeners that will respond to event occuring before and after submit the request.
 You need to configure it in `services.yml` file:
@@ -94,6 +107,8 @@ Then you need to specify this listeners in create action configuration:
 
 Update Action
 -------------
+Action to update an existing object.
+This is a subclass that inherits from AbstractFormAction class.
 
 There are two required parameters: Entity class and FormType Class.
 Example:
@@ -113,23 +128,25 @@ services:
 ```
 
 
-## Features and Options
+#### Available Options
 
-## Default Options
+ | Option                | Type      | Description                                              | Default Values    |
+ | ----------------------| --------  |----------------------------------------------------------|-------------------|
+ | http_method           | string    |HTTP method                                               | PATCH             |
+ | success_status_code   | integer   |Status that is returned after execution                   | 200               |
+ | return_entity         | boolean   |Result entity in response                                 | true              |
+ | form_options          | array     |options that will be used in building form                | []                |
+ | before_save_events    | array     |Before submit events (events that throws before the flush)| []                |
+ | after_save_events     | array     |After submit events (events that throws after the flush)  | []                |
+ | access_attribute      | string    |Access Attribute                                          | update            |
 
-  | Option                | Value     |
-  | ----------------------| --------  |
-  | success_status_code   | 200       |
-  | access_attribute      | update    |
-  | http_method           | PATCH     |
-  | return_entity         | true      |
 
 Update action has the same available features and options as a create action. (see "Create Action")
 
 
-
 Delete Action
 -------------
+Action to delete an existing object
 
 There is one required parameter: Entity class.
 Example:
@@ -148,24 +165,16 @@ services:
 ```
 
 
-## Options
+#### Available Options
 
- | Option                | Type         | Description                                            |
- | ----------------------| -------------|--------------------------------------------------------|
- | fetch_field           | string       |The field that is the entity identifier (id by default) |
- | before_delete_events  | array        |Before delete events                                    |
- | access_attribute      | string       |Access Attribute                                        |
+ | Option                | Type         | Description                                            | Default Values   |
+ | ----------------------| -------------|--------------------------------------------------------|------------------|
+ | fetch_field           | string       |The field that is the entity identifier (id by default) | id               |
+ | before_delete_events  | array        |Before delete events                                    | []               |
+ | access_attribute      | string       |Access Attribute                                        | delete           |
 
-## Default Options
-
-  | Option                | Value     |
-  | ----------------------| --------  |
-  | fetch_field           | id        |
-  | access_attribute      | delete    |
-  | http_method           | PATCH     |
-  | return_entity         | true      |
-
-## Event listeners
+#### Event listeners
+By default Delete action throws a such event: `'action.before_delete'`. You can dispatch this event, or throw another events using such an option: `before_delete_events`.
 
 You can create listeners that will respond to event occuring before delete the entity.
 You need to configure it in `services.yml` file:
