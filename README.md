@@ -23,6 +23,7 @@ Create Action
 
 To enable Create Action, you need to configure it in `services.yml` file.
 
+There are two required parameters: Entity class and FormType Class.
 Example:
 
 ```
@@ -35,8 +36,22 @@ Example:
 ```
 
 
-####Event listeners
-You can create listeners that can work before and after save entity.
+## Options
+
+ | Option                | Type      | Example                                           | Description                                           |
+ | ----------------------| --------  |---------------------------------------------------|-------------------------------------------------------|
+ | use_lock              | boolean   |`'use_lock': true`                                 |option which gives the opportunity to use transactions |
+ | http_method           | string    |`'http_method': PUT`                               |HTTP method                                            |
+ | success_status_code   | string    |`'success_status_code' : Response::HTTP_CREATED`   |Status that is returned after execution                |
+ | return_entity         | boolean   |`'return_entity' : true`                           |Result entity in response                              |
+ | form_options          | array     |                                                   |options that will be used in building form             |
+ | before_save_events    | array     |`'before_save_events': ['action.before_save_item']`|Before submit events                                   |
+ | after_save_events     | array     |`'after_save_events': ['action.after_save_item']`  |After submit events                                    |
+
+
+
+##Event listeners
+You can create listeners that will be work before and after save entity.
 You need to configure it in `services.yml` file:
 ```
     before_save.user.event:
@@ -64,7 +79,7 @@ Then you need to specify this listeners in create action configuration:
             - ['setOptions', [{'before_save_events': ['action.before_save_user'], 'after_save_events': ['action.after_save_user']}]]
 ```
 
-####Transactions
+##Transactions
 If you need to enable transactions you can do it by configuring create action.
 You need to set `true` for option `use_lock`:
 ```
@@ -77,3 +92,25 @@ You need to set `true` for option `use_lock`:
         calls:
             - ['setOptions', [{'use_lock': true}]]
 ```
+
+Update Action
+-------------
+
+To enable Update Action, you need to configure it in `services.yml` file.
+
+There are two required parameters: Entity class and FormType Class.
+Example:
+
+```
+    action.user.create:
+        parent: core.action.abstract
+        class: Requestum\ApiBundle\Action\UpdateAction
+        arguments:
+            - AppBundle\Entity\User
+            - AppBundle\Form\User\UserType
+```
+
+
+## Features and Options
+
+Update action has the same features and options as a create action. (see "Create Action")
