@@ -108,7 +108,7 @@ Then you need to specify this listeners in create action configuration:
 Update Action
 -------------
 Action to update an existing object.
-This is a subclass that inherits from AbstractFormAction class.
+This is a subclass that inherits from [AbstractFormAction](#abstract-form-action-class) class.
 
 There are two required parameters: Entity class and FormType Class.
 Example:
