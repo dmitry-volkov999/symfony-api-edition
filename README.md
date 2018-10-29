@@ -158,12 +158,11 @@ You need to configure it in `services.yml` file:
 ```
 Then you need to specify this listeners in delete action configuration:
 ```
-    action.user.create:
+    action.user.delete:
         parent: core.action.abstract
-        class: Requestum\ApiBundle\Action\CreateAction
+        class: Requestum\ApiBundle\Action\DeleteAction
         arguments:
             - AppBundle\Entity\User
-            - AppBundle\Form\User\UserType
         calls:
             - ['setOptions', [{'before_delete_events': ['action.before_delete_user'] }]]
 ```
